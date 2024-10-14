@@ -1,7 +1,8 @@
-// text_driver.c
 #include <stdio.h>
-#include "mysyslog.h"
+#include <time.h>
+#include "../libmysyslog.h"
 
-void text_log(const char *msg, int level, const char *path) {
-    mysyslog(msg, level, 0, FORMAT_TEXT, path);
+// Функция для логирования в текстовом формате
+void log_to_text(const char* msg, int level, const char* path) {
+    mysyslog(msg, level, DRIVER_TEXT, TEXT, path);
 }
