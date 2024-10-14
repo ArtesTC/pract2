@@ -1,7 +1,8 @@
-// json_driver.c
 #include <stdio.h>
-#include "mysyslog.h"
+#include <time.h>
+#include "../libmysyslog.h"
 
-void json_log(const char *msg, int level, const char *path) {
-    mysyslog(msg, level, 0, FORMAT_JSON, path);
+// Функция для логирования в формате JSON
+void log_to_json(const char* msg, int level, const char* path) {
+    mysyslog(msg, level, DRIVER_JSON, JSON, path);
 }
