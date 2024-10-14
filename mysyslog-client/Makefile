@@ -1,17 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
-TARGET = mysyslog-client
+CFLAGS = -Wall
+LIBS = -L../libmysyslog -lmysyslog -L../libmysyslog-text -lmysyslog-text -L../libmysyslog-json -lmysyslog-json
 
-all: $(TARGET)
+SRC = src/client.c
+OBJ = $(SRC:.c=.o)
 
-client.o: src/client.c
-	$(CC) $(CFLAGS) -c src/client.c -o client.o
+all: mysyslog-client
 
-$(TARGET): client.o
-	$(CC) client.o -o $(TARGET) -L../libmysyslog -lmysyslog
+mysyslog-client: $(OBJ)
+	$(CC) $^ -o $@ $(LIBS)
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o mysyslog-client
 
-install:
-	cp $(TARGET) /usr/local/bin
+deb:
+	# команды для создания deb-пакета
