@@ -1,26 +1,18 @@
-# MYSYSLOG Project
+# MySyslog
 
-**mysyslog** — это расширяемая библиотека для ведения журнала, написанная на языке C, которая поддерживает разные форматы вывода данных в лог. Проект включает в себя библиотеку `libmysyslog` и два подключаемых драйвера: текстовый и JSON, а также клиентское приложение и демон.
+MySyslog is a logging system implemented in C, providing different logging formats and drivers.
 
-## Структура проекта
+## Modules
 
-- **libmysyslog/** — основная библиотека для записи в лог.
-- **libmysyslog-text/** — плагин для вывода данных в текстовом формате.
-- **libmysyslog-json/** — плагин для вывода данных в формате JSON.
-- **mysyslog-client/** — тестовое клиентское приложение, которое использует библиотеку для записи логов.
-- **mysyslog-daemon/** — демон для автоматической записи в лог.
+- **libmysyslog**: Core logging library
+- **libmysyslog-text**: Text logging driver
+- **libmysyslog-json**: JSON logging driver
+- **mysyslog-client**: Client application for logging messages
+- **mysyslog-daemon**: Daemon application for continuous logging
 
-## Уровни логирования
+## Build
 
-- `DEBUG` = 0
-- `INFO` = 1
-- `WARN` = 2
-- `ERROR` = 3
-- `CRITICAL` = 4
-
-## Инструкция по сборке
-
-Чтобы собрать весь проект, выполните следующие команды:
+To build all modules, run:
 
 ```bash
-make all
+make
