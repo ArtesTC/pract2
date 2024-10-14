@@ -1,39 +1,40 @@
-// client.c
 #include <stdio.h>
+#include <stdlib.h>
 #include <getopt.h>
-#include "mysyslog.h"
+#include "../libmysyslog.h"
 
 int main(int argc, char *argv[]) {
-    int level = 0;
-    int format = FORMAT_TEXT;
-    char *message = NULL;
-    char *path = "log.txt";
+    int level = INFO; // уровень по умолчанию
+    int driver = DRIVER_TEXT; // драйвер по умолчанию
+    const char *path = "log.txt"; // путь по умолчанию
+    char *msg = NULL;
 
     int opt;
-    while ((opt = getopt(argc, argv, "m:l:f:p:")) != -1) {
+    while ((opt = getopt(argc, argv, "m:l:d:p:")) != -1) {
         switch (opt) {
             case 'm':
-                message = optarg;
+                msg = optarg;
                 break;
             case 'l':
                 level = atoi(optarg);
                 break;
-            case 'f':
-                format = atoi(optarg);
+            case 'd':
+                driver = atoi(optarg);
                 break;
             case 'p':
                 path = optarg;
                 break;
             default:
-                fprintf(stderr, "Usage: %s -m message -l level -f format -p path\n", argv[0]);
+                fprintf(stderr, "Usage: %s -m message -l level -d driver -p path\n", argv[0]);
                 exit(EXIT_FAILURE);
         }
     }
 
-    if (message) {
-        mysyslog(message, level, 0, format, path);
+    if (msg) {
+        mysyslog(msg, level, driver, TEXT, path);
     } else {
-        fprintf(stderr, "No message provided\n");
+        fprintf(stderr, "Message is required\n");
+        exit(EXIT_FAILURE);
     }
 
     return 0;
