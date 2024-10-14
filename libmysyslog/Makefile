@@ -1,18 +1,22 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -fPIC
-TARGET = libmysyslog.a
+CFLAGS = -Wall -fPIC
+AR = ar
+ARFLAGS = rcs
+LIBNAME = mysyslog
 
-all: $(TARGET)
+SRC = src/mysyslog.c
+OBJ = $(SRC:.c=.o)
 
-libmysyslog.o: src/mysyslog.c
-	$(CC) $(CFLAGS) -c src/mysyslog.c -o libmysyslog.o
+all: $(LIBNAME).a
 
-$(TARGET): libmysyslog.o
-	ar rcs $(TARGET) libmysyslog.o
+$(LIBNAME).a: $(OBJ)
+	$(AR) $(ARFLAGS) $@ $^
+
+%.o: %.c mysyslog.h
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o *.a
 
-install:
-	cp $(TARGET) /usr/local/lib
-	cp src/mysyslog.h /usr/local/include
+deb:
+	# команды для создания deb-пакета
