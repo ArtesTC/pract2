@@ -1,18 +1,20 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -fPIC
-TARGET = libmysyslog-text.a
+CFLAGS = -Wall -fPIC
+LIBNAME = libmysyslog-text
 
-all: $(TARGET)
+SRC = src/text_driver.c
+OBJ = $(SRC:.c=.o)
 
-text_driver.o: src/text_driver.c
-	$(CC) $(CFLAGS) -c src/text_driver.c -o text_driver.o
+all: $(LIBNAME).so
 
-$(TARGET): text_driver.o
-	ar rcs $(TARGET) text_driver.o
+$(LIBNAME).so: $(OBJ)
+	$(CC) -shared -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o *.so
 
-install:
-	cp $(TARGET) /usr/local/lib
-	cp src/text_driver.h /usr/local/include
+deb:
+	# команды для создания deb-пакета
