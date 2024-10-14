@@ -1,30 +1,18 @@
-all: libmysyslog libmysyslog-text libmysyslog-json mysyslog-client mysyslog-daemon
+# Общий Makefile для сборки всех модулей
 
-libmysyslog:
-	$(MAKE) -C libmysyslog
+.PHONY: all clean repo
 
-libmysyslog-text:
-	$(MAKE) -C libmysyslog-text
-
-libmysyslog-json:
-	$(MAKE) -C libmysyslog-json
-
-mysyslog-client:
-	$(MAKE) -C mysyslog-client
-
-mysyslog-daemon:
-	$(MAKE) -C mysyslog-daemon
+all: libmysyslog/libmysyslog.a libmysyslog-text/libmysyslog-text.so libmysyslog-json/libmysyslog-json.so mysyslog-client/mysyslog-client mysyslog-daemon/mysyslog-daemon
 
 clean:
-	$(MAKE) -C libmysyslog clean
-	$(MAKE) -C libmysyslog-text clean
-	$(MAKE) -C libmysyslog-json clean
-	$(MAKE) -C mysyslog-client clean
-	$(MAKE) -C mysyslog-daemon clean
+	@echo "Cleaning all build files..."
+	@find . -name "*.o" -exec rm -f {} \;
+	@find . -name "*.so" -exec rm -f {} \;
+	@find . -name "*.a" -exec rm -f {} \;
+	@find . -name "*.deb" -exec rm -f {} \;
 
-install:
-	$(MAKE) -C libmysyslog install
-	$(MAKE) -C libmysyslog-text install
-	$(MAKE) -C libmysyslog-json install
-	$(MAKE) -C mysyslog-client install
-	$(MAKE) -C mysyslog-daemon install
+repo:
+	@echo "Creating a repository..."
+	# Здесь вы можете добавить команды для создания репозитория
+
+# Определите цели для каждого модуля, если необходимо
