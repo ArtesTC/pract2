@@ -1,18 +1,20 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -fPIC
-TARGET = libmysyslog-json.a
+CFLAGS = -Wall -fPIC
+LIBNAME = libmysyslog-json
 
-all: $(TARGET)
+SRC = src/json_driver.c
+OBJ = $(SRC:.c=.o)
 
-json_driver.o: src/json_driver.c
-	$(CC) $(CFLAGS) -c src/json_driver.c -o json_driver.o
+all: $(LIBNAME).so
 
-$(TARGET): json_driver.o
-	ar rcs $(TARGET) json_driver.o
+$(LIBNAME).so: $(OBJ)
+	$(CC) -shared -o $@ $^
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o *.so
 
-install:
-	cp $(TARGET) /usr/local/lib
-	cp src/json_driver.h /usr/local/include
+deb:
+	# команды для создания deb-пакета
