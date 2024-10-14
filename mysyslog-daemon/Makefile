@@ -1,17 +1,17 @@
 CC = gcc
-CFLAGS = -Wall -Wextra
-TARGET = mysyslog-daemon
+CFLAGS = -Wall
+LIBS = -L../libmysyslog -lmysyslog
 
-all: $(TARGET)
+SRC = src/daemon.c
+OBJ = $(SRC:.c=.o)
 
-daemon.o: src/daemon.c
-	$(CC) $(CFLAGS) -c src/daemon.c -o daemon.o
+all: mysyslog-daemon
 
-$(TARGET): daemon.o
-	$(CC) daemon.o -o $(TARGET) -L../libmysyslog -lmysyslog
+mysyslog-daemon: $(OBJ)
+	$(CC) $^ -o $@ $(LIBS)
 
 clean:
-	rm -f *.o $(TARGET)
+	rm -f *.o mysyslog-daemon
 
-install:
-	cp $(TARGET) /usr/local/bin
+deb:
+	# команды для создания deb-пакета
